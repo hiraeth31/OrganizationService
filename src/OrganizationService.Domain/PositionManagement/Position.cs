@@ -11,7 +11,7 @@ namespace OrganizationService.Domain.PositionManagement
         private Position() { }
 
         private Position(
-            Guid id,
+            PositionId id,
             Name name,
             Description description,
             DateTime createdTime,
@@ -25,7 +25,7 @@ namespace OrganizationService.Domain.PositionManagement
             UpdatedAt = updatedAt;
         }
 
-        public Guid Id { get; private set; }
+        public PositionId Id { get; private set; }
         public Name Name { get; private set; } = default!;
         public Description Description { get; private set; } = default!;
         public bool IsActive { get; private set; }

@@ -10,15 +10,16 @@ namespace OrganizationService.Domain.DepartmentManagement
     {
         private readonly List<DepartmentLocation> _departmentLocations = [];
         private readonly List<DepartmentPosition> _departmentPositions = [];
+        private readonly List<Department> _childrenDepartments = [];
 
         // ef core
         private Department() { }
 
         private Department(
-            Guid id,
+            DepartmentId id,
             Name name,
             Identifier identifier,
-            Guid? parentId,
+            Department? parent,
             Path path,
             short depth,
             DateTime createdTime,
@@ -27,7 +28,7 @@ namespace OrganizationService.Domain.DepartmentManagement
             Id = id;
             Name = name;
             Identifier = identifier;
-            ParentId = parentId;
+            Parent = parent;
             Path = path;
             Depth = depth;
             IsActive = true;
@@ -35,17 +36,19 @@ namespace OrganizationService.Domain.DepartmentManagement
             UpdatedAt = updatedAt;
         }
 
-        public Guid Id { get; private set; }
+        public DepartmentId Id { get; private set; }
         public Name Name { get; private set; } = default!;
         public Identifier Identifier { get; private set; } = default!;
-        public Guid? ParentId { get; private set; }
+        public DepartmentId? ParentId { get; private set; }
         public Path Path { get; private set; } = default!;
         public short Depth { get; private set; }
         public bool IsActive { get; private set; }
         public DateTime CreatedAt { get; private set; }
         public DateTime UpdatedAt { get; private set; }
 
+        public Department? Parent { get; private set; }
         public IReadOnlyList<DepartmentLocation> DepartmentLocations => _departmentLocations;
         public IReadOnlyList<DepartmentPosition> DepartmentPositions => _departmentPositions;
+        public IReadOnlyList<Department> ChildrenDepartments => _childrenDepartments;
     }
 }
