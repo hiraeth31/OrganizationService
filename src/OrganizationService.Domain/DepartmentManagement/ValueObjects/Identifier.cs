@@ -1,11 +1,10 @@
 ﻿using CSharpFunctionalExtensions;
+using OrganizationService.Domain.Common;
 
 namespace OrganizationService.Domain.DepartmentManagement.ValueObjects
 {
     public record Identifier
     {
-        private const int MIN_LENGTH = 3;
-        private const int MAX_LENGTH = 150;
         private Identifier(string value)
         {
             Value = value;
@@ -18,7 +17,7 @@ namespace OrganizationService.Domain.DepartmentManagement.ValueObjects
             if (string.IsNullOrWhiteSpace(value))
                 return Result.Failure<Identifier>("Не может быть пустым.");
 
-            if (value.Length is < MIN_LENGTH or > MAX_LENGTH)
+            if (value.Length is < Constants.MIN_DEPARTMENT_IDENTIFIER_LENGTH or > Constants.MAX_DEPARTMENT_IDENTIFIER_LENGTH)
                 return Result.Failure<Identifier>("Длина должна быть от 3 до 150 символов.");
 
             if (!value.All(char.IsAsciiLetter))
