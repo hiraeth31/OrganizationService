@@ -1,11 +1,10 @@
 ﻿using CSharpFunctionalExtensions;
+using OrganizationService.Domain.Common;
 
 namespace OrganizationService.Domain.PositionManagement.ValueObjects
 {
     public record Name
     {
-        private const int MIN_LENGTH = 3;
-        private const int MAX_LENGTH = 100;
         private Name(string value)
         {
             Value = value;
@@ -17,7 +16,7 @@ namespace OrganizationService.Domain.PositionManagement.ValueObjects
             if (string.IsNullOrWhiteSpace(value))
                 return Result.Failure<Name>("Не может быть пустым.");
 
-            if (value.Length is < MIN_LENGTH or > MAX_LENGTH)
+            if (value.Length is < Constants.MIN_POSITION_NAME_LENGTH or > Constants.MAX_POSITION_NAME_LENGTH)
                 return Result.Failure<Name>("Длина должна быть от 3 до 100 символов.");
 
             return Result.Success(new Name(value));

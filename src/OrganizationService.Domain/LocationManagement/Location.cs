@@ -13,7 +13,7 @@ namespace OrganizationService.Domain.LocationManagement
         private readonly List<Address> _addresses = [];
 
         private Location(
-            Guid id,
+            LocationId id,
             Name name,
             Timezone timezone,
             IEnumerable<Address> addresses,
@@ -29,7 +29,7 @@ namespace OrganizationService.Domain.LocationManagement
             UpdatedAt = updatedAt;
         }
 
-        public Guid Id { get; private set; }
+        public LocationId Id { get; private set; }
         public Name Name { get; private set; } = default!;
         public Timezone Timezone { get; private set; } = default!;
         public bool IsActive { get; private set; }

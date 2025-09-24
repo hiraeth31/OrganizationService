@@ -1,5 +1,4 @@
 ﻿using CSharpFunctionalExtensions;
-using System.Text.RegularExpressions;
 
 namespace OrganizationService.Domain.DepartmentManagement.ValueObjects
 {

@@ -1,8 +1,12 @@
+using OrganizationService.Infrastructure;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddInfrastructure();
 
 var app = builder.Build();
 
