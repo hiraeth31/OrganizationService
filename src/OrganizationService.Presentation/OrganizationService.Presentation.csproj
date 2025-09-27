@@ -12,17 +12,15 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="9.0.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.4" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="9.0.4" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\OrganizationService.Application\OrganizationService.Application.csproj" />
+    <ProjectReference Include="..\OrganizationService.Contracts\OrganizationService.Contracts.csproj" />
     <ProjectReference Include="..\OrganizationService.Domain\OrganizationService.Domain.csproj" />
     <ProjectReference Include="..\OrganizationService.Infrastructure\OrganizationService.Infrastructure.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Controllers\" />
   </ItemGroup>
 
 </Project>

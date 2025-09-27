@@ -12,7 +12,7 @@ using OrganizationService.Infrastructure;
 
 namespace OrganizationService.Infrastructure.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(OrganizationServiceDbContext))]
     [Migration("20250924081401_Initial")]
     partial class Initial
     {
