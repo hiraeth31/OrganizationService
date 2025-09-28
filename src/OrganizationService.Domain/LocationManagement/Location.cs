@@ -1,4 +1,5 @@
-﻿using OrganizationService.Domain.DepartmentLocationManagement;
+﻿using OrganizationService.Domain.Common;
+using OrganizationService.Domain.DepartmentLocationManagement;
 using OrganizationService.Domain.LocationManagement.ValueObjects;
 
 namespace OrganizationService.Domain.LocationManagement
@@ -12,10 +13,10 @@ namespace OrganizationService.Domain.LocationManagement
 
         private readonly List<Address> _addresses = [];
 
-        private Location(
+        public Location(
             LocationId id,
-            Name name,
-            Timezone timezone,
+            LocationName name,
+            LocationTimezone timezone,
             IEnumerable<Address> addresses,
             DateTime createdTime,
             DateTime updatedAt)
@@ -30,8 +31,8 @@ namespace OrganizationService.Domain.LocationManagement
         }
 
         public LocationId Id { get; private set; }
-        public Name Name { get; private set; } = default!;
-        public Timezone Timezone { get; private set; } = default!;
+        public LocationName Name { get; private set; } = default!;
+        public LocationTimezone Timezone { get; private set; } = default!;
         public bool IsActive { get; private set; }
         public DateTime CreatedAt { get; private set; }
         public DateTime UpdatedAt { get; private set; }

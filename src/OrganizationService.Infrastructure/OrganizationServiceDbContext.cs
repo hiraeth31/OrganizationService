@@ -7,7 +7,7 @@ using OrganizationService.Domain.PositionManagement;
 
 namespace OrganizationService.Infrastructure
 {
-    public class ApplicationDbContext(IConfiguration configuration) : DbContext
+    public class OrganizationServiceDbContext(IConfiguration configuration) : DbContext
     {
         private const string DATABASE = "Database";
         public DbSet<Department> Departments => Set<Department>();
@@ -23,7 +23,7 @@ namespace OrganizationService.Infrastructure
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(OrganizationServiceDbContext).Assembly);
         }
 
         private ILoggerFactory CreateLoggerFactory() =>
