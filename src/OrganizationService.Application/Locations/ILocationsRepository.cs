@@ -1,9 +1,11 @@
-﻿using OrganizationService.Domain.LocationManagement;
+﻿using CSharpFunctionalExtensions;
+using OrganizationService.Domain.Common;
+using OrganizationService.Domain.LocationManagement;
 
 namespace OrganizationService.Application.Locations
 {
     public interface ILocationsRepository
     {
-        Task<Guid> Add(Location location, CancellationToken cancellationToken = default);
+        Task<Result<Guid, ErrorList>> Add(Location location, CancellationToken cancellationToken = default);
     }
 }

@@ -1,4 +1,5 @@
-﻿using OrganizationService.Domain.Common;
+﻿using CSharpFunctionalExtensions;
+using OrganizationService.Domain.Common;
 using OrganizationService.Domain.LocationManagement;
 using OrganizationService.Domain.LocationManagement.ValueObjects;
 
@@ -17,32 +18,39 @@ namespace OrganizationService.Application.Locations.AddLocation
             _dateTimeProvider = dateTimeProvider;
         }
 
-        public async Task<Guid> Handle(
+        public async Task<Result<Guid, ErrorList>> Handle(
             AddLocationCommand command,
             CancellationToken cancellationToken)
         {
 
             var locationId = new LocationId(Guid.NewGuid());
 
-            var name = LocationName.Create(command.Name).Value;
+            var nameResult = LocationName.Create(command.Name);
+            if (nameResult.IsFailure)
+                return Errors.General.ValueIsInvalid(command.Name).ToErrorList();
 
-            var timezone = LocationTimezone.Create(command.Timezone).Value;
+            var timezoneResult = LocationTimezone.Create(command.Timezone);
+            if (timezoneResult.IsFailure)
+                return Errors.General.ValueIsInvalid(command.Timezone).ToErrorList();
 
-            var addresses = command.Addresses
+            var addressesResult = command.Addresses
                 .Select(ad => Address.Create(
                     ad.Country,
                     ad.City,
                     ad.Street,
-                    ad.House)
-                .Value);
+                    ad.House));
+            if (addressesResult.Any(x => x.IsFailure))
+                return Errors.General.ValueIsInvalid().ToErrorList();
+
+            var adresses = addressesResult.Select(x=> x.Value).ToList();
 
             var location = new Location(
                 locationId,
-                name,
-                timezone,
-                addresses,
-                _dateTimeProvider,
-                _dateTimeProvider);
+                nameResult.Value,
+                timezoneResult.Value,
+                adresses,
+                _dateTimeProvider.UtcNow,
+                _dateTimeProvider.UtcNow);
 
             await _locationsRepository.Add(location, cancellationToken);
 

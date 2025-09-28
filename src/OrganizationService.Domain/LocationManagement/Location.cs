@@ -18,16 +18,16 @@ namespace OrganizationService.Domain.LocationManagement
             LocationName name,
             LocationTimezone timezone,
             IEnumerable<Address> addresses,
-            IDateTimeProvider createdTime,
-            IDateTimeProvider updatedAt)
+            DateTime createdTime,
+            DateTime updatedAt)
         {
             Id = id;
             Name = name;
             Timezone = timezone;
             _addresses = [.. addresses];
             IsActive = true;
-            CreatedAt = createdTime.UtcNow;
-            UpdatedAt = updatedAt.UtcNow;
+            CreatedAt = createdTime;
+            UpdatedAt = updatedAt;
         }
 
         public LocationId Id { get; private set; }

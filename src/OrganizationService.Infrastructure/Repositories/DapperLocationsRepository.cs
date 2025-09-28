@@ -2,6 +2,8 @@
 using OrganizationService.Domain.LocationManagement;
 using OrganizationService.Infrastructure.Dapper;
 using Dapper;
+using CSharpFunctionalExtensions;
+using OrganizationService.Domain.Common;
 
 namespace OrganizationService.Infrastructure.Repositories
 {
@@ -13,25 +15,32 @@ namespace OrganizationService.Infrastructure.Repositories
         {
             _connectionFactory = connectionFactory;
         }
-        public async Task<Guid> Add(Location location, CancellationToken cancellationToken = default)
+        public async Task<Result<Guid, ErrorList>> Add(Location location, CancellationToken cancellationToken = default)
         {
-            using var connection = await _connectionFactory.CreateConnectionAsync(cancellationToken);
+            try
+            {
+                using var connection = await _connectionFactory.CreateConnectionAsync(cancellationToken);
 
-            const string locationInsertSql = """
+                const string locationInsertSql = """
                                              INSERT INTO Locations (id, name, timezone, addresses)
                                              VALUES (@Id, @Name, @Timezone, @Addresses)
                                              """;
-            var locationParams = new
+                var locationParams = new
+                {
+                    Id = location.Id.Value,
+                    Name = location.Name.Value,
+                    Timezone = location.Timezone.Value,
+                    Addresses = location.Addresses
+                };
+
+                await connection.ExecuteAsync(locationInsertSql, locationParams);
+
+                return location.Id.Value;
+            }
+            catch (Exception)
             {
-                Id = location.Id.Value,
-                Name = location.Name.Value,
-                Timezone = location.Timezone.Value,
-                Addresses = location.Addresses
-            };
-
-            await connection.ExecuteAsync(locationInsertSql, locationParams);
-
-            return location.Id.Value;
+                return Errors.General.ValueIsInvalid().ToErrorList();
+            }
         }
     }
 }
