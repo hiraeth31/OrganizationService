@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using OrganizationService.Domain.Common;
 
 namespace OrganizationService.Domain.DepartmentManagement.ValueObjects
 {
@@ -10,12 +11,12 @@ namespace OrganizationService.Domain.DepartmentManagement.ValueObjects
         }
         public string Value { get; }
 
-        public static Result<Path> Create(string value)
+        public static Result<Path, Error> Create(string value)
         {
             if (string.IsNullOrWhiteSpace(value))
-                return Result.Failure<Path>("Не может быть пустым.");
+                return Errors.General.ValueIsRequired("Path");
 
-            return Result.Success(new Path(value));
+            return new Path(value);
         }
     }
 }

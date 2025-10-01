@@ -1,5 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using NodaTime;
+using OrganizationService.Domain.Common;
 
 namespace OrganizationService.Domain.LocationManagement.ValueObjects
 {
@@ -13,15 +14,15 @@ namespace OrganizationService.Domain.LocationManagement.ValueObjects
         }
         public string Value { get; }
 
-        public static Result<LocationTimezone> Create(string value)
+        public static Result<LocationTimezone, Error> Create(string value)
         {
             if (string.IsNullOrWhiteSpace(value))
-                return Result.Failure<LocationTimezone>("Не может быть пустым.");
+                return Errors.General.ValueIsRequired("LocationTimezone");
 
             if (!IanaZoneIds.Contains(value))
-                return Result.Failure<LocationTimezone>("Значение не является валидным IANA-кодом часового пояса.");
+                return Errors.General.ValueIsRequired("LocationTimezone");
 
-            return Result.Success(new LocationTimezone(value));
+            return new LocationTimezone(value);
         }
     }
 }
