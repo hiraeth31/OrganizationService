@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OrganizationService.Application.Locations.AddLocation;
 using OrganizationService.Contracts.Requests;
+using OrganizationService.Presentation.EndpointResults;
 
 namespace OrganizationService.Presentation.Controllers
 {
@@ -9,18 +10,14 @@ namespace OrganizationService.Presentation.Controllers
     public class LocationController : ControllerBase
     {
         [HttpPost]
-        public async Task<ActionResult<Guid>> Create(
+        public async Task<EndpointResult<Guid>> Create(
             [FromServices] AddLocationHandler handler,
             [FromBody] AddLocationRequest request,
             CancellationToken cancellationToken)
         {
             var command = request.ToCommand();
 
-            var result = handler.Handle(command, cancellationToken);
-
-
-
-            return Ok();
+            return await handler.Handle(command, cancellationToken);
         }
     }
 }
