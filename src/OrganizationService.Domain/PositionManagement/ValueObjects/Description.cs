@@ -11,15 +11,15 @@ namespace OrganizationService.Domain.PositionManagement.ValueObjects
         }
         public string Value { get; }
 
-        public static Result<Description> Create(string value)
+        public static Result<Description, Error> Create(string value)
         {
             if (string.IsNullOrWhiteSpace(value))
-                return Result.Failure<Description>("Не может быть пустым.");
+                return Errors.General.ValueIsRequired("Description");
 
             if (value.Length >= Constants.MAX_POSITION_DESCRIPTION_LENGTH)
-                return Result.Failure<Description>("Не может быть более 1000 символов.");
+                return Errors.General.ValueIsRequired("Description");
 
-            return Result.Success(new Description(value));
+            return new Description(value);
         }
     }
 }

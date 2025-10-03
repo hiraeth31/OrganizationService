@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using OrganizationService.Domain.Common;
 
 namespace OrganizationService.Domain.LocationManagement.ValueObjects
 {
@@ -16,21 +17,21 @@ namespace OrganizationService.Domain.LocationManagement.ValueObjects
         public string Street { get; }
         public string House { get; }
 
-        public static Result<Address> Create(string country, string city, string street, string house)
+        public static Result<Address, Error> Create(string country, string city, string street, string house)
         {
             if (string.IsNullOrWhiteSpace(country))
-                return Result.Failure<Address>("Не может быть пустым.");
+                return Errors.General.ValueIsRequired("country");
 
             if (string.IsNullOrWhiteSpace(city))
-                return Result.Failure<Address>("Не может быть пустым.");
+                return Errors.General.ValueIsRequired("city");
 
             if (string.IsNullOrWhiteSpace(street))
-                return Result.Failure<Address>("Не может быть пустым.");
+                return Errors.General.ValueIsRequired("street");
 
             if (string.IsNullOrWhiteSpace(house))
-                return Result.Failure<Address>("Не может быть пустым.");
+                return Errors.General.ValueIsRequired("house");
 
-            return Result.Success(new Address(country, city, street, house));
+            return new Address(country, city, street, house);
         }
     }
 }
